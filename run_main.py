@@ -45,7 +45,7 @@ it_idx = 10
 update_cnt = 36
 # Number of equations
 N = 9
-K_max = 12000#10000
+K_max = 20000#10000
 
 # Final Time
 T = 4.0
