@@ -41,11 +41,11 @@ print("\n")
 print("Start ticking")
 tt = time.time()
 
-it_idx = 5
-update_cnt = 28
+it_idx = 10
+update_cnt = 36
 # Number of equations
 N = 9
-K_max = 20000#10000
+K_max = 30000#10000
 
 # Final Time
 T = 4.0
@@ -65,6 +65,7 @@ w[4] = 10.9
 w[5] = 11.62
 w[6] = 14.74
 w[7] = 29.58
+w[8] = 38.88
 
 
 
@@ -86,7 +87,7 @@ for i in range(N):
             a_upper_bound[j, i] = a_upper_bound[i,j]
             a_lower_bound[j, i] = a_lower_bound[i,j]
         elif (i >= 7) or (j >= 7):
-            f_inv = np.abs(w[i] - w[j])/8
+            f_inv = np.abs(w[i] - w[j])/9.0
             a_upper_bound[i,j] = f_inv*1.02
             a_lower_bound[i,j] = f_inv*0.98
             a_upper_bound[j, i] = a_upper_bound[i,j]
@@ -193,10 +194,10 @@ for i in range(N):
 
         for l in range(it_idx):
             it_temp_val[l] = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
-            #print("MOCU value non-sync: ", it_temp_val[l])
+            print("MOCU value non-sync: ", it_temp_val[l])
 
-        MOCU_matrix_nonsyn[i,j] = np.median(it_temp_val)
-        #print("median = ", np.median(it_temp_val))
+        MOCU_matrix_nonsyn[i,j] = np.mean(it_temp_val)
+        print("median = ", np.median(it_temp_val))
 
         a_lower_bound_update = a_lower_bound.copy()
         a_upper_bound_update = a_upper_bound.copy()
@@ -210,20 +211,9 @@ for i in range(N):
         else:
             MOCU_matrix[i, j] = MOCU_matrix_nonsyn[i, j]
 
-        D_save[i,j] = D
-
         print("i = ",i)
         print("R = ",R)
 
-
-
-np.savetxt('R.csv', R, delimiter=',')
-np.savetxt('a_lower.csv', a_lower_bound_update, delimiter=',')
-np.savetxt('a_upper.csv', a_upper_bound_update, delimiter=',')
-
-# R = np.loadtxt('R.csv', delimiter=',')
-# a_lower_bound_update = np.loadtxt('a_lower.csv', delimiter=',')
-# a_upper_bound_update = np.loadtxt('a_upper.csv', delimiter=',')
 
 MOCU_seq = np.zeros(update_cnt)
 Entropy_seq = np.zeros(update_cnt)
@@ -231,8 +221,10 @@ Rand_seq = np.zeros(update_cnt)
 R_copy = R.copy()
 
 init_MOCU_val = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
+#print(a_lower_bound)
 Entropy_seq = find_Entropy_seq(R_copy, save_f_inv, D_save, init_MOCU_val,
                                   K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt)
+#print(a_lower_bound)
 print("Entropy",Entropy_seq)
 a_lower_bound_update = a_lower_bound.copy()
 a_upper_bound_update = a_upper_bound.copy()
@@ -240,6 +232,7 @@ R_copy = R.copy()
 Rand_seq = find_Rand_seq(R_copy, save_f_inv, D_save, init_MOCU_val,
                                   K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt)
 print("Rand",Rand_seq)
+#print(a_lower_bound)
 a_lower_bound_update = a_lower_bound.copy()
 a_upper_bound_update = a_upper_bound.copy()
 R_copy = R.copy()
