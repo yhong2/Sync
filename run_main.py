@@ -41,7 +41,7 @@ print("\n")
 print("Start ticking")
 tt = time.time()
 
-it_idx = 3
+it_idx = 5
 update_cnt = 28
 # Number of equations
 N = 9
