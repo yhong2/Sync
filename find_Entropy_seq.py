@@ -4,41 +4,36 @@ from sampling import *
 from mocu_comp import *
 from MOCU import *
 import numpy as np
-import random
 
-
-def find_Rand_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h , M, T,
+def find_Entropy_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h , M, T,
                   a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt):
 
-    #aaa = np.zeros((N,N))
-    Rand_seq = np.ones(update_cnt)*50.0
+    a_diff = np.zeros((N,N))
+
+    Entropy_seq = np.ones(update_cnt)*50.0
     it_temp_val = np.zeros(it_idx)
     it_temp_val_init = np.zeros(it_idx)
-             
-    Rand_seq[0] = init_MOCU_val
+
+    Entropy_seq[0] = init_MOCU_val
 
 
-    Nnum = N*(N - 1) / 2
-    i_set = np.zeros(update_cnt-1)
-    j_set = np.zeros(update_cnt-1)
-    ind_list = []
-    for i in range(N):
-        for j in range(i + 1, N):
-            ind_list.append([[i, j]])
-    random.shuffle(ind_list)
 
-    for i in range(update_cnt-1):
-        i_set[i] = np.asarray(ind_list[i])[0][0]
-        j_set[i] = np.asarray(ind_list[i])[0][1]
 
-    #print(i_set, j_set)
+    a_diff = np.triu(a_upper_bound_update - a_lower_bound_update,1)
+    #print(a_diff)
     for ij in range(1,update_cnt):
         flag = 0
 
-        i = int(i_set[ij-1])
-        j = int(j_set[ij-1])
+        max_ind = np.where(a_diff == np.max(a_diff[np.nonzero(a_diff)]))
+        if len(max_ind[0]) == 1:
+            i = int(max_ind[0])
+            j = int(max_ind[1])
+        else:
+            i = int(max_ind[0][0])
+            j = int(max_ind[1][0])
+        a_diff[i, j] = 0.0
 
-        print(i,j)
+        #print(i,j)
 
 
         f_inv = save_f_inv[i, j]
@@ -61,27 +56,21 @@ def find_Rand_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
 
 
 
-
-
         cnt = 0
-        while Rand_seq[ij] > Rand_seq[ij - 1]:
-            if ij > update_cnt-1:
+        while Entropy_seq[ij] > Entropy_seq[ij - 1]:
+            if ij > update_cnt-3:
                 K_max = K_max + K_max
 
             for l in range(it_idx):
                 it_temp_val[l] = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
-
-            Rand_seq[ij] = np.median(it_temp_val)
-                    
+            Entropy_seq[ij] = np.median(it_temp_val)
             cnt = cnt + 1
             if cnt == 2:
-                Rand_seq[ij] = Rand_seq[ij - 1]
+                Entropy_seq[ij] = Entropy_seq[ij - 1]
                 break
 
 
+    print("Entropy_lower = ", a_lower_bound_update)
+    print("Entropy_upper = ", a_upper_bound_update)
 
-    print("Rand_lower = ", a_lower_bound_update)
-    print("Rand_upper = ", a_upper_bound_update)
-
-    return Rand_seq
-
+    return Entropy_seq

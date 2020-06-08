@@ -41,7 +41,7 @@ print("\n")
 print("Start ticking")
 tt = time.time()
 
-it_idx = 1
+it_idx = 3
 update_cnt = 28
 # Number of equations
 N = 9
@@ -64,7 +64,7 @@ w[3] = 7.48
 w[4] = 10.9
 w[5] = 11.62
 w[6] = 14.74
-w[7] = 30.58
+w[7] = 29.58
 
 
 
@@ -81,26 +81,27 @@ for i in range(N):
     for j in range(i+1,N):
         if (i <= 4) and (j <= 4):
             f_inv = np.abs(w[i] - w[j])/2.0
-            a_upper_bound[i,j] = f_inv*1.02
-            a_lower_bound[i,j] = f_inv*0.98
+            a_upper_bound[i,j] = f_inv*1.03
+            a_lower_bound[i,j] = f_inv*0.97
             a_upper_bound[j, i] = a_upper_bound[i,j]
             a_lower_bound[j, i] = a_lower_bound[i,j]
         elif (i >= 7) or (j >= 7):
-            f_inv = np.abs(w[i] - w[j])/8.0
-            a_upper_bound[i,j] = f_inv*1.01
-            a_lower_bound[i,j] = f_inv*0.99
+            f_inv = np.abs(w[i] - w[j])/8
+            a_upper_bound[i,j] = f_inv*1.02
+            a_lower_bound[i,j] = f_inv*0.98
             a_upper_bound[j, i] = a_upper_bound[i,j]
             a_lower_bound[j, i] = a_lower_bound[i,j]
         else:
             f_inv = np.abs(w[i] - w[j])/2.0
-            a_upper_bound[i,j] = f_inv*1.02
-            a_lower_bound[i,j] = f_inv*0.98
+            a_upper_bound[i,j] = f_inv*1.01
+            a_lower_bound[i,j] = f_inv*0.99
             a_upper_bound[j, i] = a_upper_bound[i,j]
             a_lower_bound[j, i] = a_lower_bound[i,j]
+
         if j == 5:
             f_inv = np.abs(w[i] - w[j])/2.0
-            a_upper_bound[i,j] = f_inv*1.03
-            a_lower_bound[i,j] = f_inv*0.97
+            a_upper_bound[i,j] = f_inv*1.02
+            a_lower_bound[i,j] = f_inv*0.98
             a_upper_bound[j, i] = a_upper_bound[i,j]
             a_lower_bound[j, i] = a_lower_bound[i,j]
 
