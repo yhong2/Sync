@@ -41,11 +41,11 @@ print("\n")
 print("Start ticking")
 tt = time.time()
 
-it_idx = 10
+it_idx = 5
 update_cnt = 36
 # Number of equations
 N = 9
-K_max = 30000#10000
+K_max = 20000#10000
 
 # Final Time
 T = 4.0
@@ -213,6 +213,7 @@ for i in range(N):
 
         print("i = ",i)
         print("R = ",R)
+        D_save[i,j] = D
 
 
 MOCU_seq = np.zeros(update_cnt)
