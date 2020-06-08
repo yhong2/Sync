@@ -66,7 +66,7 @@ def find_Rand_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
         cnt = 0
         while Rand_seq[ij] > Rand_seq[ij - 1]:
             if ij > update_cnt-1:
-                K_max = K_max + K_max
+                K_max = K_max
 
             for l in range(it_idx):
                 it_temp_val[l] = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
