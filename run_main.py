@@ -64,7 +64,7 @@ w[3] = 7.48
 w[4] = 10.9
 w[5] = 11.62
 w[6] = 14.74
-w[7] = 25.58
+w[7] = 30.58
 
 
 
@@ -93,14 +93,14 @@ for i in range(N):
             a_lower_bound[j, i] = a_lower_bound[i,j]
         else:
             f_inv = np.abs(w[i] - w[j])/2.0
-            a_upper_bound[i,j] = f_inv*1.01
-            a_lower_bound[i,j] = f_inv*0.99
+            a_upper_bound[i,j] = f_inv*1.02
+            a_lower_bound[i,j] = f_inv*0.98
             a_upper_bound[j, i] = a_upper_bound[i,j]
             a_lower_bound[j, i] = a_lower_bound[i,j]
         if j == 5:
             f_inv = np.abs(w[i] - w[j])/2.0
-            a_upper_bound[i,j] = f_inv*1.02
-            a_lower_bound[i,j] = f_inv*0.98
+            a_upper_bound[i,j] = f_inv*1.03
+            a_lower_bound[i,j] = f_inv*0.97
             a_upper_bound[j, i] = a_upper_bound[i,j]
             a_lower_bound[j, i] = a_lower_bound[i,j]
 
