@@ -41,11 +41,11 @@ print("\n")
 print("Start ticking")
 tt = time.time()
 
-it_idx = 5
+it_idx = 10
 update_cnt = 36
 # Number of equations
 N = 9
-K_max = 20000#10000
+K_max = 5000#10000
 
 # Final Time
 T = 4.0
@@ -213,12 +213,11 @@ for i in range(N):
 
         print("i = ",i)
         print("R = ",R)
-        D_save[i,j] = D
 
 
-MOCU_seq = np.zeros(update_cnt)
-Entropy_seq = np.zeros(update_cnt)
-Rand_seq = np.zeros(update_cnt)
+MOCU_seq = np.zeros(update_cnt+1)
+Entropy_seq = np.zeros(update_cnt+1)
+Rand_seq = np.zeros(update_cnt+1)
 R_copy = R.copy()
 
 init_MOCU_val = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
@@ -244,17 +243,22 @@ print("MOCU",MOCU_seq)
 
 
 
+for l in range(it_idx):
+    it_temp_val[l] = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
+baseline = np.mean(it_temp_val)
 
+print("baseline = ", baseline)
 
 print("time: ", time.time() - tt)
 
-x_ax = np.arange(0,update_cnt,1)
+x_ax = np.arange(0,update_cnt+1,1)
 plt.plot(x_ax, MOCU_seq, 'ro-', x_ax, Rand_seq,'bs-', x_ax, Entropy_seq, 'g^-')
 plt.xlabel('Number of updates')
 plt.ylabel('MOCU')
 plt.legend(['MOCU based','Rand based','Entropy based'])
 plt.title('MOCU Experiment N=9')
 plt.grid(True)
+plt.axhline(y=baseline, color='k', linestyle='--')
 plt.savefig("fig.eps",format='eps')
 plt.show()
 

@@ -9,7 +9,7 @@ def find_MOCU_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
                   a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt):
 
 
-    MOCU_seq = np.ones(update_cnt)*50.0
+    MOCU_seq = np.ones(update_cnt+1)*50.0
     it_temp_val = np.zeros(it_idx)
     it_temp_val_init = np.zeros(it_idx)
 
@@ -17,7 +17,7 @@ def find_MOCU_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
 
 
 
-    for ij in range(1,update_cnt):
+    for ij in range(1,update_cnt+1):
         flag = 0
         min_ind = np.where(MOCU_matrix == np.min(MOCU_matrix[np.nonzero(MOCU_matrix)]))
 
@@ -51,9 +51,6 @@ def find_MOCU_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
 
         cnt = 0
         while MOCU_seq[ij] > MOCU_seq[ij - 1]:
-            if ij > update_cnt-1:
-                K_max = K_max
-
             for l in range(it_idx):
                 it_temp_val[l] = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
             MOCU_seq[ij] = np.median(it_temp_val)

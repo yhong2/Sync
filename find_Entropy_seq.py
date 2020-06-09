@@ -10,7 +10,7 @@ def find_Entropy_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N
 
     a_diff = np.zeros((N,N))
 
-    Entropy_seq = np.ones(update_cnt)*50.0
+    Entropy_seq = np.ones(update_cnt+1)*50.0
     it_temp_val = np.zeros(it_idx)
     it_temp_val_init = np.zeros(it_idx)
 
@@ -21,7 +21,7 @@ def find_Entropy_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N
 
     a_diff = np.triu(a_upper_bound_update - a_lower_bound_update,1)
     #print(a_diff)
-    for ij in range(1,update_cnt):
+    for ij in range(1,update_cnt+1):
         flag = 0
 
         max_ind = np.where(a_diff == np.max(a_diff[np.nonzero(a_diff)]))
@@ -58,8 +58,6 @@ def find_Entropy_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N
 
         cnt = 0
         while Entropy_seq[ij] > Entropy_seq[ij - 1]:
-            if ij > update_cnt-3:
-                K_max = K_max
 
             for l in range(it_idx):
                 it_temp_val[l] = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
