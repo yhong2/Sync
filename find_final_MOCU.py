@@ -5,7 +5,7 @@ from mocu_comp import *
 from MOCU import *
 import numpy as np
 
-def find_MOCU_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h , M, T,
+def find_final_MOCU(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h , M, T,
                   a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt):
 
 
@@ -48,17 +48,10 @@ def find_MOCU_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
             if f_inv < a_lower_bound_update[min_i_MOCU, min_j_MOCU]:
                 flag = 1
 
-
-        cnt = 0
-        while MOCU_seq[ij] > MOCU_seq[ij - 1]:
+        if ij == update_cnt:
             for l in range(it_idx):
-                it_temp_val[l] = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
-            MOCU_seq[ij] = np.median(it_temp_val)
-
-            cnt = cnt + 1
-            if cnt == 2:
-                MOCU_seq[ij] = MOCU_seq[ij - 1]
-                break
+                final_mocu = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
 
 
-    return MOCU_seq
+
+    return final_mocu

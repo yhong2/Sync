@@ -68,7 +68,4 @@ def find_Entropy_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N
                 break
 
 
-    print("Entropy_lower = ", a_lower_bound_update)
-    print("Entropy_upper = ", a_upper_bound_update)
-
     return Entropy_seq

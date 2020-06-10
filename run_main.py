@@ -41,11 +41,11 @@ print("\n")
 print("Start ticking")
 tt = time.time()
 
-it_idx = 1
-update_cnt = 18
+it_idx = 10
+update_cnt = 36
 # Number of equations
 N = 9
-K_max = 10000#10000
+K_max = 15000#10000
 
 # Final Time
 T = 4.0
@@ -215,7 +215,6 @@ for i in range(N):
         print("R = ",R)
         D_save[i,j] = D
 
-
 MOCU_seq = np.zeros(update_cnt+1)
 Entropy_seq = np.zeros(update_cnt+1)
 Rand_seq = np.zeros(update_cnt+1)
@@ -244,9 +243,8 @@ print("MOCU",MOCU_seq)
 
 
 
-for l in range(it_idx):
-    it_temp_val[l] = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
-baseline = np.mean(it_temp_val)
+baseline = find_final_MOCU(R_copy, save_f_inv, D_save, init_MOCU_val,
+                                  K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt)
 
 print("baseline = ", baseline)
 

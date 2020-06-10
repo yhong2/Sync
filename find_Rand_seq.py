@@ -75,9 +75,5 @@ def find_Rand_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
                 break
 
 
-
-    print("Rand_lower = ", a_lower_bound_update)
-    print("Rand_upper = ", a_upper_bound_update)
-
     return Rand_seq
 
