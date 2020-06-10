@@ -56,7 +56,7 @@ def find_MOCU_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
             MOCU_seq[ij] = np.median(it_temp_val)
 
             cnt = cnt + 1
-            if cnt == 2:
+            if cnt == 5:
                 MOCU_seq[ij] = MOCU_seq[ij - 1]
                 break
 
