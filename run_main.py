@@ -45,7 +45,7 @@ it_idx = 1
 update_cnt = 36
 # Number of equations
 N = 9
-K_max = 15000#10000
+K_max = 10000#10000
 
 # Final Time
 T = 4.0
@@ -136,13 +136,6 @@ if init_sync_check == 1:
     print('It is already sync system!!!!')
 
 
-"""
-for i in range(5):
-    toto = MOCU(K_max, w, N, h , M, T, a_lower_bound, a_upper_bound)
-    print("MOCU: ",toto)
-
-sys.exit()
-"""
 
 MOCU_matrix = np.zeros((N,N))
 MOCU_matrix_syn = np.zeros((N,N))
