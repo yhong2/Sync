@@ -17,7 +17,7 @@ def find_final_MOCU(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N,
 
 
 
-    for ij in range(1,update_cnt+1):
+    for ij in range(1,36+1):
         flag = 0
         min_ind = np.where(MOCU_matrix == np.min(MOCU_matrix[np.nonzero(MOCU_matrix)]))
 
