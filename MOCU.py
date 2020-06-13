@@ -224,7 +224,7 @@ task = mod.get_function("task")
 
 def MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update):
 
-    blocks = 200
+    blocks = 100
     block_size = np.int(K_max/blocks)
 
     w = np.append(w, 0.5*np.mean(w))

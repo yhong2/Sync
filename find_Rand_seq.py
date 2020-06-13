@@ -70,7 +70,7 @@ def find_Rand_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
             Rand_seq[ij] = np.median(it_temp_val)
                     
             cnt = cnt + 1
-            if cnt == 5:
+            if cnt == 3:
                 Rand_seq[ij] = Rand_seq[ij - 1]
                 break
 

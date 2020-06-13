@@ -18,6 +18,7 @@ sys.path.append("./src")
 from find_MOCU_seq import *
 from find_Entropy_seq import *
 from find_Rand_seq import *
+from find_final_MOCU import *
 from MOCU import *
 from main_module_ij_couple import *
 import time
@@ -42,10 +43,11 @@ print("Start ticking")
 tt = time.time()
 
 it_idx = 1
-update_cnt = 20
+update_cnt = 18
+update_cnt_end = 36
 # Number of equations
 N = 9
-K_max = 10000#10000
+K_max = 30000#10000
 
 # Final Time
 T = 4.0
@@ -136,6 +138,13 @@ if init_sync_check == 1:
     print('It is already sync system!!!!')
 
 
+"""
+for i in range(5):
+    toto = MOCU(K_max, w, N, h , M, T, a_lower_bound, a_upper_bound)
+    print("MOCU: ",toto)
+
+sys.exit()
+"""
 
 MOCU_matrix = np.zeros((N,N))
 MOCU_matrix_syn = np.zeros((N,N))
@@ -146,6 +155,10 @@ D_save = np.zeros((N,N))
 save_f_inv = np.zeros((N,N))
 it_temp_val = np.zeros(it_idx)
 
+
+
+print("Sample size: ", K_max)
+print("Number of oscillators", N)
 
 for i in range(N):
     for j in range(i+1,N):
@@ -209,6 +222,7 @@ for i in range(N):
         D_save[i,j] = D
 
 MOCU_seq = np.zeros(update_cnt+1)
+MOCU_seq_all = np.zeros(update_cnt_end+1)
 Entropy_seq = np.zeros(update_cnt+1)
 Rand_seq = np.zeros(update_cnt+1)
 R_copy = R.copy()
@@ -229,28 +243,25 @@ print("Rand",Rand_seq)
 a_lower_bound_update = a_lower_bound.copy()
 a_upper_bound_update = a_upper_bound.copy()
 R_copy = R.copy()
-MOCU_seq = find_MOCU_seq(R_copy, save_f_inv, D_save, init_MOCU_val,
-                                  K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt)
+MOCU_seq_all = find_MOCU_seq(R_copy, save_f_inv, D_save, init_MOCU_val,
+                                  K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt, update_cnt_end)
 
-print("MOCU",MOCU_seq)
+print("MOCU",MOCU_seq_all)
 
-
-
-baseline = find_final_MOCU(R_copy, save_f_inv, D_save, init_MOCU_val,
-                                  K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt)
-
+MOCU_seq = MOCU_seq_all[0:update_cnt+1]
+baseline = MOCU_seq_all[-1]
 print("baseline = ", baseline)
 
 print("time: ", time.time() - tt)
 
-x_ax = np.arange(0,update_cnt+1,1)
+x_ax = np.arange(0,update_cnt+1,1, dtype=int)
 plt.plot(x_ax, MOCU_seq, 'ro-', x_ax, Rand_seq,'bs-', x_ax, Entropy_seq, 'g^-')
 plt.xlabel('Number of updates')
 plt.ylabel('MOCU')
-plt.legend(['MOCU based','Rand based','Entropy based'])
 plt.title('MOCU Experiment N=9')
 plt.grid(True)
 plt.axhline(y=baseline, color='k', linestyle='--')
+plt.legend(['MOCU based','Rand based','Entropy based','baseline'])
 plt.savefig("fig.eps",format='eps')
 plt.show()
 

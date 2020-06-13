@@ -63,7 +63,7 @@ def find_Entropy_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N
                 it_temp_val[l] = MOCU(K_max, w, N, h , M, T, a_lower_bound_update, a_upper_bound_update)
             Entropy_seq[ij] = np.median(it_temp_val)
             cnt = cnt + 1
-            if cnt == 5:
+            if cnt == 3:
                 Entropy_seq[ij] = Entropy_seq[ij - 1]
                 break
 

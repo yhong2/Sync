@@ -6,10 +6,10 @@ from MOCU import *
 import numpy as np
 
 def find_MOCU_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h , M, T,
-                  a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt):
+                  a_lower_bound_update, a_upper_bound_update, it_idx, update_cnt, update_cnt_end):
 
 
-    MOCU_seq = np.ones(update_cnt+1)*50.0
+    MOCU_seq = np.ones(update_cnt_end+1)*50.0
     it_temp_val = np.zeros(it_idx)
     it_temp_val_init = np.zeros(it_idx)
 
@@ -17,7 +17,7 @@ def find_MOCU_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
 
 
 
-    for ij in range(1,update_cnt+1):
+    for ij in range(1,update_cnt_end+1):
         flag = 0
         min_ind = np.where(MOCU_matrix == np.min(MOCU_matrix[np.nonzero(MOCU_matrix)]))
 
@@ -56,7 +56,7 @@ def find_MOCU_seq(MOCU_matrix, save_f_inv, D_save, init_MOCU_val, K_max, w, N, h
             MOCU_seq[ij] = np.median(it_temp_val)
 
             cnt = cnt + 1
-            if cnt == 5:
+            if cnt == 3:
                 MOCU_seq[ij] = MOCU_seq[ij - 1]
                 break
 
