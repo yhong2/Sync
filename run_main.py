@@ -42,12 +42,12 @@ print("\n")
 print("Start ticking")
 tt = time.time()
 
-it_idx = 1
+it_idx = 3
 update_cnt = 25
 update_cnt_end = 36
 # Number of equations
 N = 9
-K_max = 30000#10000
+K_max = 10000#10000
 
 # Final Time
 T = 4.0
